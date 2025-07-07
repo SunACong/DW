@@ -151,7 +151,7 @@ export default {
 
   .header-logo {
     height: 35px;
-    width: 160px;
+    width: 80px;
     vertical-align: middle;
   }
 }

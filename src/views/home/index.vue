@@ -50,7 +50,11 @@
         <router-view />
         <el-footer>
           <div class="about-container">
-            <span class="desc-text"><a href="https://www.tduckcloud.com" target="view_window">TDUCK官网</a></span>
+            <span class="desc-text"
+              ><a href="http://jszgyjy.norincogroup.com.cn/" target="view_window"
+                >中国兵器工业集团江山重工研究院有限公司官网</a
+              ></span
+            >
           </div>
         </el-footer>
       </div>
@@ -233,7 +237,7 @@ $menuActiveText: #409eff;
   min-width: 1024px;
 
   .header-logo-img {
-    width: 100px;
+    width: 80px;
     float: left;
     margin-top: 5px;
     margin-left: 55px;

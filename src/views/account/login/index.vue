@@ -5,7 +5,7 @@
     </div>
     <div class="logo-content">
       <span class="hello">Hello ，</span>
-      <span class="tips">欢迎使用Tduck！</span>
+      <span class="tips">欢迎使用问卷系统！</span>
       <el-tabs v-if="formType == 'login'" v-model="loginType" class="login-form-tab">
         <el-tab-pane v-if="enableWx" label="微信扫码登录" name="wx">
           <div class="wx-login">
@@ -59,7 +59,7 @@
             <el-form-item>
               <el-button type="primary" @click="loginHandle" v-re-click> 登录 </el-button>
               <el-link class="ml-20 link-btn" @click="toForgetPwdHandle"> 忘记密码 </el-link>
-              <el-link class="ml-20 link-btn" @click="formType = 'reg'"> 立即注册 </el-link>
+              <!-- <el-link class="ml-20 link-btn" @click="formType = 'reg'"> 立即注册 </el-link> -->
             </el-form-item>
           </el-form>
         </el-tab-pane>
@@ -114,6 +114,7 @@ export default {
       },
       accountForm: {
         email: '',
+        account: '',
         phoneNumber: '',
         password: ''
       },

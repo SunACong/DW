@@ -13,14 +13,17 @@ export default function loadTinymce(cb) {
 
   const loading = ELEMENT.Loading.service({
     fullscreen: true,
-    lock: true,
+    lock: false,
     text: '富文本资源加载中...',
     spinner: 'el-icon-loading',
     background: 'rgba(255, 255, 255, 0.5)'
   })
 
   loadScript(tinymceUrl, () => {
-    loading.close()
+    setTimeout(() => {
+      loading.close()
+    }, 500)
+
     // eslint-disable-next-line no-undef
     tinymceObj = tinymce
     cb(tinymceObj)
