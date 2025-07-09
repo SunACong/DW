@@ -10,19 +10,20 @@
         <el-row :gutter="10" align="middle" type="flex">
           <el-col :span="12">
             <div>
-              <vue-qr v-if="writeLink" :callback="qrCodeGenSuccess" :size="194" :text="writeLink" />
+              <vue-qr
+                v-if="writeLink"
+                :callback="qrCodeGenSuccess"
+                :logoSrc="
+                  shareSettingForm.shareWxImgUrl
+                    ? shareSettingForm.shareWxImgUrl
+                    : 'http://119.45.156.18:8889/u/logo.png'
+                "
+                :size="194"
+                :text="writeLink"
+              />
             </div>
             <div style="text-align: center">
-              <el-link
-                type="primary"
-                @click="
-                  () => {
-                    this.downloadFile('qrcode.png', this.qrCodeUrl)
-                  }
-                "
-              >
-                下载分享二维码
-              </el-link>
+              <el-link type="primary" @click="downloadClick"> 下载分享二维码 </el-link>
             </div>
           </el-col>
           <el-col :span="12" style="margin-left: 75px">
@@ -72,7 +73,10 @@
 
 <script>
 import VueQr from 'vue-qr'
+import { mapGetters } from 'vuex'
+import { generateQrWithTitle } from '@/utils/generateQrWithTitle'
 import { getFormStatusRequest, publishFormRequest, stopPublishFormRequest } from '@/api/project/publish'
+import { getSettingRequest } from '@/api/project/setting'
 
 export default {
   name: 'ProjectPublish',
@@ -84,7 +88,21 @@ export default {
       publishStatus: false,
       formKey: '',
       writeLink: '',
-      qrCodeUrl: ''
+      qrCodeUrl: '',
+      shareSettingForm: ''
+    }
+  },
+  computed: {
+    ...mapGetters('user', ['isLogin', 'userInfo']),
+    parsedUserInfo() {
+      if (typeof this.userInfo === 'string') {
+        try {
+          return JSON.parse(this.userInfo)
+        } catch (e) {
+          return {}
+        }
+      }
+      return this.userInfo
     }
   },
   mounted() {
@@ -92,6 +110,12 @@ export default {
     let url = window.location.protocol + '//' + window.location.host
     this.writeLink = `${url}/s/${this.formKey}`
     this.getProjectStatus()
+
+    getSettingRequest(this.formKey).then((res) => {
+      if (res.data) {
+        this.shareSettingForm = res.data
+      }
+    })
   },
   methods: {
     getProjectStatus() {
@@ -119,6 +143,18 @@ export default {
     },
     qrCodeGenSuccess(dataUrl) {
       this.qrCodeUrl = dataUrl
+    },
+    downloadClick() {
+      const title = this.shareSettingForm.shareWxTitleContent || `来自用户{ ${this.parsedUserInfo.username} }的分享`
+
+      generateQrWithTitle(this.qrCodeUrl, { title })
+        .then((finalBase64) => {
+          this.downloadFile('qrcode.png', finalBase64)
+        })
+        .catch((err) => {
+          console.error('下载二维码失败，使用原图。', err)
+          this.downloadFile('qrcode.png', this.qrCodeUrl)
+        })
     },
     downloadFile(fileName, content) {
       let aLink = document.createElement('a')

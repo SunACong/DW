@@ -394,7 +394,8 @@ export default {
       }, 5 * 1000)
     },
     cropUploadSuccess(res) {
-      this.userInfoForm.avatar = res.data
+      this.userInfoForm.avatar = res.data.url
+
       this.updateUserHandle()
     }
   }

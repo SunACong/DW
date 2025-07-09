@@ -58,7 +58,7 @@
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="loginHandle" v-re-click> 登录 </el-button>
-              <el-link class="ml-20 link-btn" @click="toForgetPwdHandle"> 忘记密码 </el-link>
+              <!-- <el-link class="ml-20 link-btn" @click="toForgetPwdHandle"> 忘记密码 </el-link> -->
               <!-- <el-link class="ml-20 link-btn" @click="formType = 'reg'"> 立即注册 </el-link> -->
             </el-form-item>
           </el-form>

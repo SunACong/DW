@@ -110,7 +110,9 @@ export default {
   destroyed() {},
   methods: {
     uploadShareImgHandle(response) {
-      this.shareSettingForm.shareWxImgUrl = response.data
+      console.log('response:', response)
+
+      this.shareSettingForm.shareWxImgUrl = response.data.url
     },
     queryUserProjectSetting() {
       getSettingRequest(this.formKey).then((res) => {

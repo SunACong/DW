@@ -306,7 +306,8 @@ export default {
       this.saveUserTheme()
     },
     uploadLogoHandle(response) {
-      this.userFormTheme.logoImg = response.data
+      // 更精确获取二维码url
+      this.userFormTheme.logoImg = response.data.url
       this.saveUserTheme()
     },
     uploadHeadImgHandle(response) {

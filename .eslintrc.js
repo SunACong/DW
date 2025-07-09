@@ -37,6 +37,7 @@ module.exports = {
     'no-multi-assign': 0,
     'prefer-rest-params': 0,
     'vue/require-prop-types': 0,
+    'vue/require-v-for-key': 'off',
     'vue/no-mutating-props': 0,
     'vue/require-default-prop': 0,
     'vue/valid-v-bind-sync': 0,

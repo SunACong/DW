@@ -15,6 +15,17 @@
         <el-button v-if="checkBtnPerms('delete')" icon="el-icon-remove" type="danger" @click="handleDelete">
           删除
         </el-button>
+        <el-date-picker
+          v-model="submitTimeRange"
+          type="datetimerange"
+          range-separator="至"
+          start-placeholder="开始时间"
+          end-placeholder="结束时间"
+          format="yyyy-MM-dd HH:mm:ss"
+          value-format="yyyy-MM-dd HH:mm:ss"
+          style="margin-left: 10px; margin-right: 10px"
+        />
+        <el-button type="primary" @click="handleConditionQueryTable">查 询</el-button>
       </template>
     </base-table>
     <ViewOrUpdate
@@ -101,6 +112,7 @@ export default {
       },
       formParseKey: new Date().getTime(),
       formModel: {},
+      submitTimeRange: [],
       gridOptions: {
         border: true,
         stripe: true,
@@ -314,6 +326,14 @@ export default {
       })
     },
     handleConditionQueryTable() {
+      if (this.submitTimeRange && this.submitTimeRange.length === 2) {
+        const [start, end] = this.submitTimeRange
+        this.queryParams.beginDateTime = start
+        this.queryParams.endDateTime = end
+      } else {
+        this.queryParams.beginDateTime = null
+        this.queryParams.endDateTime = null
+      }
       this.queryDialogVisible = false
       this.$refs.baseTable.getXGrid().commitProxy('reload')
     },
