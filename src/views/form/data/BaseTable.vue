@@ -2,7 +2,7 @@
   <div>
     <vxe-grid
       ref="xGrid"
-      v-bind="gridOptions"
+      v-bind="mergedGridOptions"
       @cell-click="
         ($event) => {
           $emit('cell-click', $event)
@@ -146,6 +146,30 @@ export default {
     }
   },
   created() {},
+  computed: {
+    mergedGridOptions() {
+      const options = this.gridOptions || {}
+      const hasSeqColumn = options.columns?.some((col) => col.type === 'seq')
+
+      const newOptions = {
+        ...options,
+        columns: hasSeqColumn
+          ? options.columns
+          : [
+              // 👇 自动插入序号列
+              {
+                type: 'seq',
+                title: '序号',
+                width: 60,
+                align: 'center'
+              },
+              ...options.columns
+            ]
+      }
+
+      return newOptions
+    }
+  },
   methods: {
     getXGrid() {
       return this.$refs.xGrid
